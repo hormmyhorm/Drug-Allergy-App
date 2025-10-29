@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drug Allergy App — Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>ระบบบันทึกอาการแพ้ยา (ตัวอย่าง)</h1>
+    <p>หน้านี้เก็บข้อมูลไว้ในเครื่องผู้ใช้ (LocalStorage) — ยังไม่ส่งขึ้นออนไลน์</p>
+  </header>
+
+  <main class="container">
+    <form id="demoForm">
+      <div class="field">
+        <label for="fullname">ชื่อ-สกุล</label>
+        <input id="fullname" name="fullname" type="text" required placeholder="เช่น กาญจนา ใจดี" />
+      </div>
+
+      <div class="field">
+        <label for="hn">HN</label>
+        <input id="hn" name="hn" type="text" required placeholder="เช่น 1234567" />
+      </div>
+
+      <div class="field">
+        <label for="symptoms">อาการ/อาการแสดง</label>
+        <textarea id="symptoms" name="symptoms" rows="3" placeholder="พิมพ์อาการที่พบ..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="onset">ระยะเวลาที่เริ่มมีอาการ</label>
+        <select id="onset" name="onset" required>
+          <option value="">-- เลือก --</option>
+          <option value="lt1h">ภายใน 1 ชั่วโมง</option>
+          <option value="1to6h">1–6 ชั่วโมง</option>
+          <option value="6to24h">6–24 ชั่วโมง</option>
+          <option value="1to6w">1–6 สัปดาห์</option>
+          <option value="other">อื่นๆ</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button type="submit">บันทึก (ในเครื่องนี้)</button>
+        <button type="button" id="clearBtn">ล้างข้อมูล</button>
+      </div>
+
+      <p id="status" class="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <footer class="app-footer">
+    <small>© Demo — Drug-Allergy-App</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
