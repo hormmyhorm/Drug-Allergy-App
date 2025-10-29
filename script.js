@@ -10,7 +10,7 @@ const statusEl = document.getElementById("status");
     for (const [k, v] of Object.entries(saved)) {
       const el = form.elements[k];
       if (!el) continue;
-      if (el.tagName === "SELECT" || el.tagName === "TEXTAREA" || el.type === "text") {
+      if (el.tagName === "SELECT" || el.tagName === "TEXTAREA" || el.type === "text" || el.type === "tel") {
         el.value = v;
       }
     }
@@ -34,3 +34,4 @@ clearBtn.addEventListener("click", () => {
 function statusMsg(msg) {
   statusEl.textContent = `• ${msg}`;
 }
+
