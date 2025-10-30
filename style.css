@@ -1,19 +1,1253 @@
-:root { --bg:#ffffff; --ink:#111; --muted:#666; --brand:#6b4df5; --line:#eee; }
-* { box-sizing:border-box; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif; }
-body { margin:0; background:var(--bg); color:var(--ink); }
-.app-header { padding:24px 16px; border-bottom:1px solid var(--line); text-align:center; }
-.app-header h1 { margin:0 0 6px; font-size:24px; }
-.app-header p { margin:0; color:var(--muted); }
-.container { max-width:720px; margin:20px auto; padding:0 16px; }
-.field { margin:14px 0; display:block; }
-input[type="text"], textarea, select {
-  width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:10px; outline:none;
+/* ========================================
+   Drug Allergy Assessment Form - Styles
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-input:focus, textarea:focus, select:focus {
-  border-color: var(--brand); box-shadow: 0 0 0 3px rgba(107,77,245,.15);
+
+body {
+  font-family: 'Sarabun', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
 }
-.actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-button { padding:10px 14px; border-radius:12px; border:1px solid var(--line); background:#f7f7fb; cursor:pointer; }
-button:hover { background:#efeff8; }
-.status { margin-top:8px; color:var(--muted); }
-.app-footer { text-align:center; padding:20px 16px; color:var(--muted); border-top:1px solid var(--line); margin-top:20px; }
+
+/* ========================================
+   Background & Animations
+   ======================================== */
+
+.fixed-bg {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #9333ea 0%, #ec4899 50%, #fb923c 100%);
+  z-index: -2;
+}
+
+.bubbles-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-10vh) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   Main Container
+   ======================================== */
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* ========================================
+   Header
+   ======================================== */
+
+.app-header {
+  text-align: center;
+  padding: 2rem 0 1.5rem;
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  color: white;
+  font-size: 1.25rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   Tab Navigation
+   ======================================== */
+
+.tab-navigation {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.4);
+  color: white;
+  font-size: 0.95rem;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.tab-btn.active {
+  background: white;
+  color: #9333ea;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+/* ========================================
+   Content Wrapper
+   ======================================== */
+
+.content-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  min-height: 600px;
+  border: 4px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   Pages
+   ======================================== */
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.page-content {
+  padding: 1.5rem;
+}
+
+/* ========================================
+   Sections
+   ======================================== */
+
+.section {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-patient {
+  background: linear-gradient(135deg, #fed7aa, #fecaca, #ddd6fe);
+  border-color: #fb923c;
+}
+
+.section-symptoms {
+  background: linear-gradient(135deg, #bfdbfe, #a5f3fc, #99f6e4);
+  border-color: #3b82f6;
+}
+
+.section-timing {
+  background: linear-gradient(135deg, #ddd6fe, #fecaca, #fed7aa);
+  border-color: #a855f7;
+}
+
+.section-image {
+  background: linear-gradient(135deg, #a7f3d0, #99f6e4, #bae6fd);
+  border-color: #10b981;
+}
+
+.section-other-systems {
+  background: linear-gradient(135deg, #fecaca, #fed7aa, #fde68a);
+  border-color: #f43f5e;
+}
+
+.section-organs {
+  background: linear-gradient(135deg, #ddd6fe, #fecaca, #fecdd3);
+  border-color: #a855f7;
+}
+
+.section-lab {
+  background: linear-gradient(135deg, #a5f3fc, #bfdbfe, #c7d2fe);
+  border-color: #06b6d4;
+}
+
+.section-naranjo {
+  background: linear-gradient(135deg, #c7d2fe, #ddd6fe, #fbcfe8);
+  border-color: #6366f1;
+}
+
+.section-timeline {
+  background: linear-gradient(135deg, #e9d5ff, #fbcfe8, #fecaca);
+  border-color: #a855f7;
+}
+
+.section-summary {
+  background: linear-gradient(135deg, #bfdbfe, #c7d2fe, #ddd6fe);
+  border-color: #6366f1;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.section-header h3,
+.section-header h2,
+.section-header h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.section-header h2 {
+  font-size: 1.875rem;
+}
+
+.emoji {
+  font-size: 1.875rem;
+}
+
+/* ========================================
+   Subsections
+   ======================================== */
+
+.subsection {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid;
+}
+
+.section-patient .subsection,
+.section-symptoms .subsection {
+  border-color: #3b82f6;
+}
+
+.subsection-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 0.75rem;
+}
+
+.sub-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   Form Elements
+   ======================================== */
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-family: 'Sarabun', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.section-patient input,
+.section-patient textarea {
+  border-color: #fca5a5;
+}
+
+.section-symptoms input,
+.section-symptoms select,
+.subsection input,
+.subsection select {
+  border-color: #93c5fd;
+}
+
+.section-timing select,
+.section-timing input {
+  border-color: #c4b5fd;
+  font-size: 1.125rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #9333ea;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* ========================================
+   Grid Layouts
+   ======================================== */
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid-1 {
+  grid-template-columns: 1fr;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.checkbox-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* ========================================
+   Checkboxes
+   ======================================== */
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.checkbox-label:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.checkbox-label span {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+
+.btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Sarabun', sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: white;
+  color: #9333ea;
+  border: 2px solid #d8b4fe;
+}
+
+.btn-secondary:hover {
+  background: #faf5ff;
+}
+
+.btn-success {
+  background: #16a34a;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #15803d;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+  border: 2px solid #ef4444;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-sm {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+/* ========================================
+   Option Buttons (Radio-like)
+   ======================================== */
+
+.option-btn {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-align: left;
+  transition: all 0.3s;
+  border: 2px solid #d1d5db;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  font-family: 'Sarabun', sans-serif;
+}
+
+.option-btn:hover {
+  background: #f9fafb;
+}
+
+.option-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #2563eb;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+.option-btn.active-red {
+  background: #ef4444;
+  color: white;
+  border-color: #dc2626;
+}
+
+.option-btn.active-yellow {
+  background: #eab308;
+  color: white;
+  border-color: #ca8a04;
+}
+
+.option-btn.active-green {
+  background: #10b981;
+  color: white;
+  border-color: #059669;
+}
+
+.severity-options {
+  margin-left: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   Special Sections
+   ======================================== */
+
+.blister-section,
+.discharge-section,
+.itching-section,
+.swelling-section,
+.pustules-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.blister-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.blister-count,
+.detail-input {
+  margin-left: 1.5rem;
+}
+
+/* ========================================
+   Image Upload
+   ======================================== */
+
+.image-upload-area {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 2px dashed #10b981;
+  text-align: center;
+}
+
+.upload-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.upload-icon {
+  width: 6rem;
+  height: 6rem;
+  background: #d1fae5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0 auto;
+}
+
+.upload-prompt h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #9333ea;
+  margin: 0;
+}
+
+.upload-prompt p {
+  color: #6b7280;
+  margin: 0;
+}
+
+.upload-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #9333ea;
+  color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.upload-btn:hover {
+  background: #7e22ce;
+}
+
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 24rem;
+  border-radius: 0.5rem;
+}
+
+.delete-btn {
+  padding: 0.5rem 1.5rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}
+
+/* ========================================
+   Lab Items
+   ======================================== */
+
+.lab-category {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #06b6d4;
+}
+
+.lab-category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0e7490;
+}
+
+.lab-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.lab-item input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.lab-item label {
+  min-width: 200px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin: 0;
+}
+
+.lab-item input[type="text"],
+.lab-item input[type="number"] {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border-color: #93c5fd;
+}
+
+.lab-item .unit {
+  min-width: 80px;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* ========================================
+   Naranjo Assessment
+   ======================================== */
+
+.naranjo-drug {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #6366f1;
+}
+
+.naranjo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.naranjo-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.naranjo-question {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.naranjo-question p {
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.naranjo-answers {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.naranjo-answer-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  border: 2px solid #d1d5db;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  font-family: 'Sarabun', sans-serif;
+}
+
+.naranjo-answer-btn:hover {
+  background: #f9fafb;
+}
+
+.naranjo-answer-btn.active.yes {
+  background: #10b981;
+  color: white;
+  border-color: #059669;
+}
+
+.naranjo-answer-btn.active.no {
+  background: #ef4444;
+  color: white;
+  border-color: #dc2626;
+}
+
+.naranjo-answer-btn.active.unknown {
+  background: #eab308;
+  color: white;
+  border-color: #ca8a04;
+}
+
+.naranjo-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.naranjo-result.definite {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.naranjo-result.probable {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.naranjo-result.possible {
+  background: #fefce8;
+  color: #854d0e;
+}
+
+.naranjo-result.doubtful {
+  background: #f9fafb;
+  color: #374151;
+}
+
+.naranjo-result h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.naranjo-result .score {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.naranjo-result .interpretation {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* ========================================
+   Timeline
+   ======================================== */
+
+.timeline-drug {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid;
+}
+
+.timeline-drug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timeline-drug-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.drug-color-indicator {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+}
+
+.timeline-events {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.timeline-event {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.timeline-event label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-event-inputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.timeline-event input[type="date"] {
+  flex: 1;
+  border-color: #d1d5db;
+}
+
+.timeline-event input[type="time"] {
+  width: 8rem;
+  border-color: #d1d5db;
+}
+
+.adr-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid #ef4444;
+}
+
+.adr-indicator {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+.adr-event {
+  background: #fef2f2;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid #fecaca;
+}
+
+.adr-event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.adr-event-header h5 {
+  font-weight: 700;
+  color: #dc2626;
+  margin: 0;
+}
+
+.timeline-btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.visual-timeline {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-top: 1.5rem;
+  border: 2px solid #d1d5db;
+}
+
+.visual-timeline h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+#timelineChart {
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.timeline-header {
+  display: flex;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #6b7280;
+}
+
+.timeline-label {
+  width: 8rem;
+  flex-shrink: 0;
+}
+
+.timeline-dates {
+  flex: 1;
+  display: flex;
+}
+
+.timeline-date {
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  color: #1f2937;
+  min-width: 100px;
+}
+
+.timeline-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.timeline-drug-name {
+  width: 8rem;
+  flex-shrink: 0;
+  padding-right: 1rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.timeline-bar-container {
+  flex: 1;
+  position: relative;
+  height: 5rem;
+}
+
+.timeline-bar {
+  position: absolute;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.timeline-bar-title {
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-bar-info {
+  color: white;
+  font-size: 0.875rem;
+  opacity: 0.95;
+}
+
+/* ========================================
+   Summary Page
+   ======================================== */
+
+.summary-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid;
+}
+
+.summary-blue {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.summary-green {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.summary-orange {
+  border-color: #f97316;
+  background: #fff7ed;
+}
+
+.summary-purple {
+  border-color: #a855f7;
+  background: #faf5ff;
+}
+
+.summary-teal {
+  border-color: #14b8a6;
+  background: #f0fdfa;
+}
+
+.summary-box {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 0.75rem;
+}
+
+.summary-box p {
+  margin: 0.5rem 0;
+}
+
+.summary-box ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+/* ========================================
+   Page Navigation
+   ======================================== */
+
+.page-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   System Symptoms
+   ======================================== */
+
+.system-category {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #f43f5e;
+}
+
+.system-category-header {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #be123c;
+  margin-bottom: 0.75rem;
+}
+
+.symptom-item {
+  background: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.hidden {
+  display: none !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+  body {
+    background: white;
+  }
+
+  .fixed-bg,
+  .bubbles-container,
+  .tab-navigation,
+  .no-print {
+    display: none !important;
+  }
+
+  .content-wrapper {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+
+  .page {
+    display: block !important;
+    page-break-after: always;
+  }
+
+  .btn {
+    display: none;
+  }
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 640px) {
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    padding: 0.375rem 1rem;
+  }
+
+  .section {
+    padding: 1rem;
+  }
+
+  .subsection {
+    padding: 1rem;
+  }
+
+  .page-content {
+    padding: 1rem;
+  }
+
+  .tab-btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .lab-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lab-item label {
+    min-width: auto;
+  }
+
+  .timeline-header,
+  .timeline-row {
+    font-size: 0.875rem;
+  }
+
+  .timeline-drug-name,
+  .timeline-label {
+    width: 6rem;
+  }
+
+  .page-navigation {
+    flex-direction: column;
+  }
+
+  .btn-group {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
