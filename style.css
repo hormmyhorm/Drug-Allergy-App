@@ -1,1 +1,134 @@
+/* Custom Styles for Drug Allergy Assessment Program */
+body {
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
 
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Animation classes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Print styles for PDF */
+@media print {
+    @page {
+        margin: 1.5cm;
+        size: A4;
+    }
+    
+    body {
+        background: white !important;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Hide navigation elements */
+    .no-print {
+        display: none !important;
+    }
+    
+    /* Hide all buttons */
+    button {
+        display: none !important;
+    }
+    
+    /* Remove background gradients */
+    div[style*="background"] {
+        background: white !important;
+    }
+    
+    /* Remove shadows for cleaner print */
+    .shadow-2xl,
+    .shadow-xl,
+    .shadow-lg,
+    .shadow-md {
+        box-shadow: none !important;
+    }
+    
+    /* Ensure full width for print */
+    .max-w-7xl,
+    .max-w-6xl {
+        max-width: 100% !important;
+    }
+    
+    /* Prevent breaks inside important sections */
+    .bg-white,
+    .p-6,
+    .rounded-xl {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    /* Adjust padding for print */
+    .p-8 {
+        padding: 1rem !important;
+    }
+    
+    .p-6 {
+        padding: 0.75rem !important;
+    }
+    
+    /* Make sure Timeline fits on page */
+    .overflow-x-auto {
+        overflow: visible !important;
+    }
+    
+    /* Remove rounded corners for print */
+    .rounded-2xl,
+    .rounded-xl,
+    .rounded-lg {
+        border-radius: 4px !important;
+    }
+    
+    /* Ensure borders are visible */
+    .border-2 {
+        border-width: 1px !important;
+    }
+    
+    /* Adjust font sizes for print */
+    h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    h3 {
+        font-size: 1.25rem !important;
+    }
+    
+    h4 {
+        font-size: 1.1rem !important;
+    }
+}
